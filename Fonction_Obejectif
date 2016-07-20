@@ -1,0 +1,10 @@
+Function Fonction_Obj(PosX, PosY, laby_larg, laby_haut) ' i et j coordonnées de la cellule courante '
+    
+'    i = 9   ' i 'la ligne de la cellule courante'
+'    j = 8  ' j la colonne de la cellule courante équivalente à l'absc'
+'    XF = 14 'la colonne de la cellule final'
+'    YF = 5  'la ligne de la cellule final'
+    
+    Fonction_Obj = Abs(laby_larg - PosY + 2)
+    
+End Function
