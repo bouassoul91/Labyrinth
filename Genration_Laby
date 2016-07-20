@@ -1,0 +1,201 @@
+Option Explicit
+
+Sub Genera_laby()
+ Dim i As Integer
+ Dim j As Integer
+ Dim a As Integer
+ Dim b As Integer
+ Dim laby_haut As Integer
+ Dim laby_larg As Integer
+ Dim dir_x As Integer
+ Dim dir_y As Integer
+ Dim Direction As Integer
+ Dim complete As Boolean
+ Dim x As Integer
+ Dim y As Integer
+ Dim XS As Integer
+ Dim XE As Integer
+
+Sheets("Labyrinthe").Select
+
+Randomize Timer
+
+Range(Cells(2, 2), Cells(28, 28)).Clear
+
+Application.ScreenUpdating = False
+
+laby_haut = InputBox("haut")
+laby_larg = InputBox("larg")
+
+Sheets("Les Params").Select
+Cells(2, 4) = laby_larg
+Cells(3, 4) = laby_haut
+
+Sheets("Labyrinthe").Select
+
+For i = 5 To laby_larg + 5
+
+    For j = 5 To laby_haut + 5
+
+        a = a + 1
+
+        Cells(j, i) = a
+
+    Next j
+
+Next i
+
+
+
+Range(Cells(5, 5), Cells(laby_haut + 5, laby_larg + 5)).Borders.LineStyle = xlDouble
+
+
+
+
+Do
+
+ 
+
+
+
+5:
+
+x = Int(Rnd * (laby_larg + 1)) + 5
+
+y = Int(Rnd * (laby_haut + 1)) + 5
+
+Direction = Int(Rnd * 4)
+
+Select Case Direction
+
+    Case 0
+
+       dir_x = 1
+
+       dir_y = 0
+
+    Case 1
+
+       dir_x = -1
+
+       dir_y = 0
+
+    Case 2
+
+       dir_x = 0
+
+       dir_y = 1
+
+    Case 3
+
+       dir_x = 0
+
+       dir_y = -1
+
+End Select
+
+ 
+
+If x + dir_x > laby_larg + 5 Or x + dir_x < 5 Or y + dir_y > laby_haut + 5 Or y + dir_y < 5 Then
+
+GoTo 5
+
+End If
+
+
+
+If Cells(y + dir_y, x + dir_x) = Cells(y, x) Then GoTo 5
+
+ 
+
+Select Case Direction
+
+    Case 0
+
+        With Cells(y, x).Borders(xlEdgeRight)
+
+            .LineStyle = xlNone
+
+        End With
+
+    Case 1
+
+       With Cells(y, x).Borders(xlEdgeLeft)
+
+        .LineStyle = xlNone
+
+       End With
+
+    Case 2
+
+       With Cells(y, x).Borders(xlEdgeBottom)
+
+        .LineStyle = xlNone
+
+       End With
+
+    Case 3
+
+       With Cells(y, x).Borders(xlEdgeTop)
+
+        .LineStyle = xlNone
+
+        End With
+
+End Select
+
+ 
+
+ 
+
+
+10:
+
+complete = True
+
+a = Cells(y, x)
+
+b = Cells(y + dir_y, x + dir_x)
+
+For i = 5 To laby_larg + 5
+
+    For j = 5 To laby_haut + 5
+
+        If Cells(j, i) = b Then Cells(j, i) = a
+
+        If Cells(j, i) <> a Then complete = False
+
+    Next j
+
+Next i
+
+ 
+
+Loop Until complete = True
+
+ 
+
+Range(Cells(5, 5), Cells(laby_haut + 5, laby_larg + 5)).ClearContents
+
+XE = Cells(Int(Rnd * laby_haut + 5), 5)
+
+XS = Cells(Int(Rnd * laby_larg + 5), laby_larg + 5)
+
+
+Range(Cells(5, 5), Cells(laby_haut + 5, laby_larg + 5)).Select
+Selection.Cut
+
+Range(Cells(2, 8), Cells(laby_haut + 2, laby_larg + 8)).Select
+ActiveSheet.Paste
+
+ Cells(laby_haut + 2, 8).Interior.Color = 255
+
+ Cells(2, laby_larg + 8).Interior.Color = 160
+ 
+Selection.Cut
+
+Range(Cells(7, 2), Cells(laby_haut + 7, laby_larg + 2)).Select
+ActiveSheet.Paste
+
+
+End Sub
