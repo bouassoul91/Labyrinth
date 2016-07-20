@@ -1,0 +1,22 @@
+Sub Mutation()
+
+    Dim Parent As Integer
+    Dim Indice_Mutation As Integer
+    Dim v As Integer
+    
+    'Application.ScreenUpdating = False
+    Sheets("Les Params").Select
+    laby_larg = Cells(2, 4)
+    laby_haut = Cells(3, 4)
+    P = Cells(4, 4)
+    Tc = (laby_larg + 1) * (laby_haut + 1)
+    Sheets("Les Données").Select
+    
+    
+    Parent = Int((Rnd * P) + 1)
+    Indice_Mutation = Int((Rnd * Tc) + 1)
+    'Cells(Parent + 5, 1).Select
+    'Cells(Parent + 5, Indice_Mutation + 1).Select
+    Cells(Parent + 5, Indice_Mutation + 1) = Int(Rnd * 3)
+
+End Sub
