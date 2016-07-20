@@ -1,0 +1,35 @@
+Sub Main()
+    
+    Call PI
+    
+    Nbr_itr = InputBox("Nombre d'iteration, sinon la valeur par défaut sera 200")
+    Seuil_Mutation = InputBox("seuil de mutation")
+    
+    Nbr_itr = Int(Nbr_itr)
+    
+    If (Nbr_itr = 0) Then
+        Nbr_itr = 200
+    End If
+    
+    K = 0
+    Do
+        Prba_Mutation = Rnd()
+        'MsgBox Prba_Mutation
+        If (Prba_Mutation < Seuil_Mutation) Then
+            Call Test_Chemin
+            Call Crossover
+        Else
+            Call Mutation
+        End If
+        K = 3
+        Sheets("Résultat").Select
+        'Cells(7, 9).Select
+        'MsgBox Cells(7, 9).Value
+        Best_Val_Obj = Cells(7, 9)
+        K = K + 1
+        'MsgBox K
+        'MsgBox Nbr_itr
+        'MsgBox Best_Val_Obj
+    
+    Loop While ((Best_Val_Obj <> 0) And (K < Nbr_itr))
+End Sub
