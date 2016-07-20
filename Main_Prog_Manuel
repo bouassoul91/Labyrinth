@@ -1,0 +1,28 @@
+Sub Main_Manu()
+    
+    Nbr_itr = InputBox("Nombre d'iteration, sinon la valeur par défaut sera 200")
+    Seuil_Mutation = InputBox("seuil de mutation")
+    
+    Nbr_itr = Int(Nbr_itr)
+    
+    If (Nbr_itr = 0) Then
+        Nbr_itr = 200
+    End If
+    
+    K = 0
+    Do
+        Prba_Mutation = Rnd()
+        If (Seuil_Mutation < Prba_Mutation) Then
+            Call Test_Chemin_Manuel
+            Call Crossover
+        Else
+            Call Mutation
+        End If
+        
+        Sheets("Les Params").Select
+        Best_Val_Obj = Cells(7, 9)
+        K = K + 1
+    
+    Loop While ((Best_Val_Obj <> 0) And (K < Nbr_itr))
+End Sub
+
