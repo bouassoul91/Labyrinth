@@ -1,0 +1,16 @@
+Sub Gen_Manu_Laby()
+
+    Application.ScreenUpdating = False
+    
+    laby_haut = InputBox("haut")
+    laby_larg = InputBox("larg")
+    
+    Sheets("Les Params").Select
+    Cells(2, 4) = laby_larg
+    Cells(3, 4) = laby_haut
+    
+    Sheets("Labyrinthe Manuel").Select
+    
+    Range(Cells(19, 2), Cells(laby_haut + 18, laby_larg + 1)).Borders.LineStyle = xlDouble
+
+End Sub
