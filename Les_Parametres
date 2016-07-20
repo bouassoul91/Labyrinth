@@ -1,0 +1,9 @@
+Function param_larg()
+    Sheets("Les Params").Select
+    param_larg = Cells(2, 4)
+End Function
+
+Function param_haut()
+    Sheets("Les Params").Select
+    param_haut = Cells(3, 4)
+End Function
