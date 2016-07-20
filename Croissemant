@@ -1,0 +1,60 @@
+Sub Crossover()
+    
+    Dim P1, P2 As Integer
+    Dim Proba As Double
+
+    Application.ScreenUpdating = False
+    Sheets("Les Params").Select
+    PosX = Cells(3, 4) + 2
+    PosY = 2
+    laby_larg = Cells(2, 4)
+    'MsgBox laby_larg
+    laby_haut = Cells(3, 4)
+    P = Cells(4, 4)
+    Tc = (laby_larg + 1) * (laby_haut + 1)
+    
+    Sheets("Les Données").Select
+Do
+        Proba = Rnd()
+        'MsgBox Proba
+        For i = 1 To P
+        Cells(i + 5, Tc + 4).Select
+            If (Cells(i + 5, Tc + 4) > Proba) Then
+                P1 = i + 5
+                GoTo Line1
+            End If
+        Next i
+Line1:
+        'MsgBox P1
+
+        Proba = Rnd()
+        'MsgBox Proba
+        For i = 1 To P
+            If (Cells(i + 5, Tc + 4) > Proba) Then
+                P2 = i + 5
+                GoTo Line2
+            End If
+        Next i
+Line2:
+        'MsgBox P2
+
+    K = K - 1
+    For j = 2 To Tc + 1
+        Cells(P + 10 + K, j).Value = Abs((Cells(P1, j + 1).Value + Cells(P2, j + 1).Value) Mod 4)
+        Cells(P + 10 + K + 1, j).Value = (Abs(Cells(P1, j + 1).Value - Cells(P2, j + 1).Value) Mod 4)
+        'Cells(21, j).Value c 'est le child 2 '
+    Next j
+    K = K + 1
+
+K = K + 2
+Loop While (K <> P)
+
+    Range(Cells(P + 9, 2), Cells(2 * P + 8, Tc + 1)).Select
+    Selection.Cut
+    Range(Cells(6, 2), Cells(P + 5, Tc + 1)).Select
+    ActiveSheet.Paste
+ 
+    Range(Cells(6, Tc + 2), Cells(6 + 105, Tc + 6)).Clear
+   
+
+End Sub
