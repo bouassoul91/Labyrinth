@@ -1,0 +1,29 @@
+Sub Delete()
+
+    Application.ScreenUpdating = False
+    Sheets("Les Params").Select
+    laby_larg = Cells(2, 4)
+    laby_haut = Cells(3, 4)
+    P = Cells(4, 4)
+    Tc = (laby_larg + 1) * (laby_haut + 1)
+    
+    Sheets("Résultat").Select
+    Range(Cells(5, 1), Cells(5, Tc)).Clear
+    Cells(7, 9).Clear
+    
+    Sheets("Les Données").Select
+    Range(Cells(5, 1), Cells(laby_haut + 20, laby_larg + 20)).Clear
+    
+    Sheets("Labyrinthe Manuel").Select
+    Range(Cells(19, 2), Cells(laby_haut + 30, laby_larg + 20)).Clear
+    
+    Sheets("Labyrinthe").Select
+    Range(Cells(7, 2), Cells(laby_haut + 20, laby_larg + 20)).Clear
+    
+    Sheets("Les Params").Select
+    Range(Cells(2, 4), Cells(4, 4)).Select
+    Range(Cells(2, 4), Cells(4, 4)).Clear
+    
+    Sheets("Interface").Select
+    
+End Sub
