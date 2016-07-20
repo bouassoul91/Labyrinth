@@ -255,8 +255,8 @@ paket-files/
 # .gitignore sample 
 ###################
 
-# ignore all files in this dir...
+# Ignore all files in this dir
 *
 
-# ... except for this one.
+# Except for this one.
 !.gitignore
