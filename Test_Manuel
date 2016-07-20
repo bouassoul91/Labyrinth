@@ -1,0 +1,231 @@
+Sub Test_Chemin_Manuel()
+
+Dim i, j As Integer
+Dim PosX, PosY, laby_larg, laby_haut As Integer
+'Dim dir_x, dir_y As Double
+Dim Somf As Double
+
+
+    Application.ScreenUpdating = False
+    Sheets("Les Params").Select
+    PosX = Cells(3, 4) + 18
+    PosY = 2
+    laby_larg = Cells(2, 4)
+    laby_haut = Cells(3, 4)
+    P = Cells(4, 4)
+    Tc = (laby_larg + 1) * (laby_haut + 1)
+    
+
+For i = 1 To P 'Taille Population'
+        Sheets("Les Données").Select
+        Range(Cells(i + 5, 2), Cells(i + 5, Tc + 1)).Select
+        Selection.Copy
+        Sheets("Labyrinthe Manuel").Select
+        Range(Cells(17, 1), Cells(17, Tc)).Select
+        ActiveSheet.Paste
+    For j = 1 To Tc 'Taille du Chromosom'
+
+        If (Cells(17, j).Value = 0) Then
+            GoTo Cas0
+        End If
+        
+        If (Cells(17, j).Value = 1) Then
+            GoTo Cas1
+        End If
+        
+        If (Cells(17, j).Value = 2) Then
+            GoTo Cas2
+        End If
+        
+        If (Cells(17, j).Value = 3) Then
+            GoTo Cas3
+        End If
+Line1:
+    Next j
+Line2:
+    Sheets("Les Données").Select
+        Cells(i + 5, Tc + 5) = j
+    'Cells(i + 5, Tc + 2).Select
+    Cells(i + 5, Tc + 2) = Fonction_Obj(PosX, PosY, laby_larg, laby_haut)
+    'Sheets("Labyrinthe Manuel").Select
+    'Cells(PosX, PosY).Select
+    
+PosX = laby_haut + 18
+PosY = 2
+Next i
+
+GoTo Evaluat
+
+'0=haut
+Cas0:
+    'Cells(Posx, Posy).Select
+If Cells(PosX, PosY).Borders(xlEdgeTop).LineStyle <> xlDouble Then
+    'Cells(PosX, PosY).Value = 5
+    PosX = PosX - 1
+    GoTo Line1
+Else
+    GoTo Line2
+End If
+
+
+'1=droite
+Cas1:
+    Cells(PosX, PosY).Select
+If Cells(PosX, PosY).Borders(xlEdgeRight).LineStyle <> xlDouble Then
+    'Cells(PosX, PosY).Value = 5
+    PosY = PosY + 1
+    GoTo Line1
+Else
+    GoTo Line2
+End If
+
+'2=bas
+Cas2:
+    Cells(PosX, PosY).Select
+If Cells(PosX, PosY).Borders(xlEdgeBottom).LineStyle <> xlDouble Then
+    'Cells(PosX, PosY).Value = 5
+    PosX = PosX + 1
+    GoTo Line1
+Else
+    GoTo Line2
+End If
+
+'3=gauche
+Cas3:
+    'Cells(Posx, Posy).Select
+If Cells(PosX, PosY).Borders(xlEdgeLeft).LineStyle <> xlDouble Then
+    'Cells(PosX, PosY).Value = 5
+    PosY = PosY - 1
+    GoTo Line1
+Else
+    GoTo Line2
+End If
+
+Evaluat:
+    Sheets("Les Données").Select
+    
+    For i = 1 To P
+        Somf = Somf + Cells(i + 5, Tc + 2)
+    Next i
+    Cells(P + 6, Tc + 2) = Somf
+    
+    For i = 1 To P
+        f = Cells(i + 5, Tc + 2)
+        'Cells(i + 5, Tc + 2).Select
+        'Cells(i + 5, Tc + 3).Select
+        Cells(i + 5, Tc + 3) = (Somf - f) / ((P - 1) * Somf)
+    Next i
+    
+'    Somf = 0
+'    'MsgBox Somf
+'    For i = 1 To P
+'        'Cells(i + 5, Tc + 3).Select
+'        Somf = Somf + Cells(i + 5, Tc + 3)
+'    Next i
+'    'MsgBox Somf
+'    Cells(P + 6, Tc + 3) = Somf
+    
+    Sheets("Les Données").Select
+    For i = 1 To P
+        'Cells(i + 5, Tc + 3).Select
+        Cells(i + 5, Tc + 4) = Cells(i + 5, Tc + 3) + Cells(i + 4, Tc + 4)
+    Next i
+    
+    
+'Best_Solution
+
+    Minimum = Application.WorksheetFunction.Min(Range(Cells(5, Tc + 2), Cells(P + 5, Tc + 2)))
+    For i = 1 To P
+        If (Cells(i + 5, Tc + 2) = Minimum) Then
+            K = i
+            Range(Cells(i + 5, 2), Cells(i + 5, Tc + 1)).Select
+            Selection.Copy
+        End If
+    Next i
+    
+    Sheets("Résultat").Select
+    If (Minimum < Cells(7, 9).Value Or (IsEmpty(Cells(7, 9)) = True)) Then
+        Range(Cells(5, 1), Cells(5, Tc)).Select
+        ActiveSheet.Paste
+        Cells(7, 9) = Minimum
+    End If
+    
+    Sheets("Labyrinthe Manuel").Select
+    Range(Cells(19, 2), Cells(laby_haut + 18, laby_larg + 1)).Select
+    Selection.Copy
+    
+    Sheets("Résultat").Select
+    Range(Cells(13, 2), Cells(laby_haut + 12, laby_larg + 1)).Select
+    ActiveSheet.Paste
+    
+PosX = laby_haut + 12
+PosY = 2
+For j = 1 To Tc 'Taille du Chromosom'
+
+        If (Cells(5, j).Value = 0) Then
+            GoTo Cas00
+        End If
+        
+        If (Cells(5, j).Value = 1) Then
+            GoTo Cas01
+        End If
+        
+        If (Cells(5, j).Value = 2) Then
+            GoTo Cas02
+        End If
+        
+        If (Cells(5, j).Value = 3) Then
+            GoTo Cas03
+        End If
+Line01:
+    Next j
+    
+'0=haut
+Cas00:
+    'Cells(Posx, Posy).Select
+If Cells(PosX, PosY).Borders(xlEdgeTop).LineStyle <> xlDouble Then
+    Cells(PosX, PosY).Interior.Color = 255
+    PosX = PosX - 1
+    GoTo Line01
+Else
+    GoTo Line02
+End If
+
+'1=droite
+Cas01:
+    'Cells(PosX, PosY).Select
+If Cells(PosX, PosY).Borders(xlEdgeRight).LineStyle <> xlDouble Then
+    Cells(PosX, PosY).Interior.Color = 255
+    PosY = PosY + 1
+    GoTo Line01
+Else
+    GoTo Line02
+End If
+
+'2=bas
+Cas02:
+    'Cells(PosX, PosY).Select
+If Cells(PosX, PosY).Borders(xlEdgeBottom).LineStyle <> xlDouble Then
+    Cells(PosX, PosY).Interior.Color = 255
+    PosX = PosX + 1
+    GoTo Line01
+Else
+    GoTo Line02
+End If
+
+'3=gauche
+Cas03:
+    'Cells(Posx, Posy).Select
+If Cells(PosX, PosY).Borders(xlEdgeLeft).LineStyle <> xlDouble Then
+    Cells(PosX, PosY).Interior.Color = 255
+    PosY = PosY - 1
+    GoTo Line01
+Else
+    GoTo Line02
+End If
+
+Line02:
+Cells(PosX, PosY).Interior.Color = 255
+    
+End Sub
+
