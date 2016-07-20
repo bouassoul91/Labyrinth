@@ -1,0 +1,50 @@
+Sub PI()
+
+    Dim P As Integer
+    Dim Tc As Integer
+    
+    
+    P = InputBox("Taille du population initial")
+    MsgBox "la taille du chromosom est par défaut egal nombre de case vide"
+    
+    'Application.ScreenUpdating = False
+    Sheets("Les Params").Select
+    laby_larg = Cells(2, 4)
+    laby_haut = Cells(3, 4)
+    Tc = (laby_larg + 1) * (laby_haut + 1)
+    
+'    Application.ScreenUpdating = False
+    Cells(4, 4).Value = P
+    Sheets("Les Données").Select
+
+    For i = 1 To P
+        Cells(i + 5, 1) = "Chromo " & i
+        Range(Cells(i + 5, 1), Cells(i + 5, 1)).Borders.LineStyle = xlEdgeBottom
+        Range(Cells(i + 5, 1), Cells(i + 5, 1)).Borders.LineStyle = xlEdgeLeft
+        Range(Cells(i + 5, 1), Cells(i + 5, 1)).Borders.LineStyle = xlEdgeRight
+        Range(Cells(i + 5, 1), Cells(i + 5, 1)).Borders.LineStyle = xlEdgeTop
+        
+        For j = 1 To Tc
+            If j = 1 Then
+                Do
+                    Cells(i + 5, j + 1) = Int(4 * Rnd)
+                Loop While (Cells(i + 5, j + 1).Value = 2 Or Cells(i + 5, j + 1).Value = 3)
+            End If
+            
+            If (j <> 1) Then
+                Do
+                    Cells(i + 5, j + 1) = Int(4 * Rnd)
+                Loop While (Abs(Cells(i + 5, j + 1).Value - Cells(i + 5, j).Value) = 2)
+            End If
+            
+            With Range(Cells(i + 5, j + 1), Cells(i + 5, j + 1))
+                '.Borders(xlEdgeRight).LineStyle = xlContinuous
+                '.Borders(xlEdgeLeft).LineStyle = xlContinuous
+                .Borders(xlEdgeBottom).LineStyle = xlContinuous
+                .Borders(xlEdgeTop).LineStyle = xlContinuous
+            End With
+        Next j
+        Range(Cells(i + 5, Tc + 1), Cells(i + 5, Tc + 1)).Borders(xlEdgeRight).LineStyle = xlContinuous
+    Next i
+       
+End Sub
